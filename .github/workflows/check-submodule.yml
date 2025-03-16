@@ -1,0 +1,24 @@
+jobs:
+  check-submodule-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true # Ensures submodules are fetched
+
+      - name: Check if submodule is up to date
+        run: |
+          cd ./sub-repo  # Change to your submodule directory
+          LATEST_REMOTE_COMMIT=$(git ls-remote origin -h refs/heads/main | awk '{print $1}')
+          CURRENT_COMMIT=$(git rev-parse HEAD)
+
+          echo "Latest Remote Commit: $LATEST_REMOTE_COMMIT"
+          echo "Current Submodule Commit: $CURRENT_COMMIT"
+
+          if [ "$LATEST_REMOTE_COMMIT" != "$CURRENT_COMMIT" ]; then
+            echo "❌ Submodule is outdated! Please pull the latest changes."
+            exit 1
+          else
+            echo "✅ Submodule is up-to-date."
+          fi
