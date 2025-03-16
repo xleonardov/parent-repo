@@ -1,3 +1,11 @@
+name: Check Submodule is Up-to-Date
+
+on:
+  pull_request:
+    paths:
+      - './sub-repo/**'
+  workflow_dispatch:
+
 jobs:
   check-submodule-update:
     runs-on: ubuntu-latest
@@ -9,7 +17,7 @@ jobs:
 
       - name: Check if submodule is up to date
         run: |
-          cd ./sub-repo  # Change to your submodule directory
+          cd ./sub-repo  # Change to your actual submodule directory
           LATEST_REMOTE_COMMIT=$(git ls-remote origin -h refs/heads/main | awk '{print $1}')
           CURRENT_COMMIT=$(git rev-parse HEAD)
 
