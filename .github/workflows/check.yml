@@ -2,9 +2,8 @@ name: Check Submodule is Up-to-Date
 
 on:
   pull_request:
-    paths:
-      - './sub-repo/**'
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
   check-submodule-update:
